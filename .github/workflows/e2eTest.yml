@@ -1,0 +1,94 @@
+name: DropSend App e2e Test
+
+on:
+  # Manual Button Click from Github UI
+  workflow_dispatch:
+  # Pushing commit to the master branch
+  # push:
+    # branches: master
+  schedule:
+    # Runs tests every day at 1am
+    - cron: '0 1 * * *'
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    # Runs tests in parallel with matrix strategy https://docs.cypress.io/guides/guides/parallelization
+    # https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs
+    # Also see warning here https://github.com/cypress-io/github-action#parallel
+    strategy:
+      fail-fast: false # https://github.com/cypress-io/github-action/issues/48
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: e2e Test on Chrome 
+        # Uses the official Cypress GitHub action https://github.com/cypress-io/github-action
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          headed: true
+          spec: cypress/e2e/*.cy.js
+          # Records to Cypress Cloud
+          # https://docs.cypress.io/guides/cloud/projects#Set-up-a-project-to-record
+          record: false
+          parallel: true # Runs test in parallel using settings above
+        env:
+          # For recording and parallelization to work you must set your CYPRESS_RECORD_KEY
+          # in GitHub repo → Settings → Secrets → Actions
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          # Creating a token https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v3
+        if: always()
+        with:
+          # Specify connection via URL (replaces server_address, server_port, secure,
+          # username and password)
+          # Format:
+          #   * smtp://user:password@server:port
+          #   * smtp+starttls://user:password@server:port
+          # Required mail server address if not connection_url:
+          server_address: smtp.gmail.com
+          # Server port, default 25:
+          server_port: 465
+          # Optional whether this connection uses TLS (default is true if server_port is 465)
+          secure: true
+          # Optional (recommended) mail server username:
+          username: "alpha2automation@gmail.com"
+          # Optional (recommended) mail server password:
+          password: "puktgxkwyjdsdanw"
+          # Required mail subject:
+          subject: Daily Test Run Report
+          # Required recipients' addresses:
+          to: happytohelp@dropsend.com
+          # Required sender full name (address can be skipped):
+          from: Alpha Automation ${{github.run_id}} # <user@example.com>
+          # Optional plain body:
+          body: |
+            DropSend Daily Test Run Report completed successfully!
+            Report Unique identifier ${{github.run_id}}
+          # Optional HTML body read from file:
+          # html_body: file://README.html
+          # Optional carbon copy recipients:
+          # cc: kyloren@example.com,leia@example.com
+          # Optional blind carbon copy recipients:
+          # bcc: r2d2@example.com,hansolo@example.com
+          # Optional recipient of the email response:
+          # reply_to: luke@example.com
+          # Optional Message ID this message is replying to:
+          # in_reply_to: <random-luke@example.com>
+          # Optional unsigned/invalid certificates allowance:
+          # ignore_cert: true
+          # Optional converting Markdown to HTML (set content_type to text/html too):
+          # convert_markdown: true
+          # Optional attachments:
+          attachments: /home/runner/work/DropSend/DropSend/cypress/reports/html/*.html
+          # Optional priority: 'high', 'normal' (default) or 'low'
+          # priority: low
+      - name: Uploading artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cypress-execution-report
+          path: cypress/reports/html
+          retention-days: 7
