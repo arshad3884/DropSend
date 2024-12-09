@@ -15,7 +15,7 @@ describe('Login Functionality test cases', () => {
 
   it('TC_LOGIN_001 - Verify login with valid credentials', () => {
     loginPage.login(loginEmail, loginPassword)
-    homePage.closeaddModal()
+    //homePage.closeaddModal()
     homePage.validateHomePage()
   })
   it('TC_LOGIN_002 - Verify login with invalid credentials', () => {
@@ -32,7 +32,7 @@ describe('Login Functionality test cases', () => {
   })
   it('TC_LOGIN_004 - Verify the "Remember Me" option', () => {
     loginPage.login(loginEmail, loginPassword)
-    homePage.closeaddModal()
+    //homePage.closeaddModal()
     homePage.validateHomePage()
     homePage.logout()
     //cy.get('[action="/login"] h1').should('be.visible').and('contain.text', 'Welcome back.') //heading

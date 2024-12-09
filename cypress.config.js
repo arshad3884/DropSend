@@ -6,8 +6,8 @@ module.exports = defineConfig({
     env: {
       accountUrl: "https://myaccount-dev2.dropsend.com", // Post-login URL
     },
-    viewportWidth: 1280,
-    viewportHeight: 720,
+    viewportWidth: 1920,
+    viewportHeight: 1080,
     chromeWebSecurity: false,
     pageLoadTimeout: 60000,
     defaultCommandTimeout: 60000,

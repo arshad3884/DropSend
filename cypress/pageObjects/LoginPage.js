@@ -33,7 +33,7 @@ export class LoginPage {
     }
     forgotPassword(email) {
         cy.get('[class="forgot-pass"]').should('be.visible').and('contain.text', 'Forgotten password?').click() //Forgotten password?
-        cy.url().should('include', '/login/send_password/')
+        cy.url().should('include', '/login/send_password')
 
         cy.get('[class="login-side-info"]').should('be.visible').and('contain.text', 'Over 100 Million large files securely sent') // right banner main heading
         cy.get('[class="login-container forgot-password-container"] h1').should('be.visible').and('contain.text', 'Forgotten your').and('contain.text', 'password?') //main heading
