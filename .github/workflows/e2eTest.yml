@@ -60,7 +60,7 @@ jobs:
           # Required mail subject:
           subject: Daily Test Run Report
           # Required recipients' addresses:
-          to: happytohelp@dropsend.com
+          to: drew@dropsend.com
           # Required sender full name (address can be skipped):
           from: Alpha Automation ${{github.run_id}} # <user@example.com>
           # Optional plain body:
