@@ -2,15 +2,11 @@
 
 import { HomePage } from "../pageObjects/HomePage";
 import { LoginPage } from "../pageObjects/LoginPage";
-import { SendFiles } from "../pageObjects/SendFiles";
-import { LandingPage } from "../pageObjects/LandingPage";
 import { ReuseableCode } from "../support/ReuseableCode";
 import { StoragePage } from "../pageObjects/StoragePage";
 
 const loginPage = new LoginPage
 const homePage = new HomePage
-const sendFiles = new SendFiles
-const landingPage = new LandingPage
 const reuseableCode = new ReuseableCode
 const storagePage = new StoragePage
 
@@ -44,5 +40,53 @@ describe('Files > Storage Functionality test cases', () => {
     storagePage.editStorageFolder(folderName, newName, newDescp)
     storagePage.goToStorage()
     storagePage.removeStorageFolder(newName)
+  })
+  it('TC_Storage_003 - Verify sharing a file or folder', () => {
+    const downloadLimit = '5' //times
+    const expireAfter = '14' //days
+    storagePage.goToStorage()
+    storagePage.selectFile(0) //first file/folder
+    storagePage.shareFolderORFile(downloadLimit, expireAfter)
+  })
+  it('TC_Storage_004 - Verify Sending a file or folder', () => {
+    const recipientEmail = 'testemail@yopmail.com'
+    const emailSubject = 'Send File OR Folder'
+    const message = "Verify Sending a file or folder - TC_Storage_004"
+    storagePage.goToStorage()
+    storagePage.selectFile(0) //first file/folder
+    storagePage.sendFileORFolder(recipientEmail, emailSubject, message)
+  })
+  it('TC_Storage_005 - Verify downloading a file or folder', () => {
+    storagePage.goToStorage()
+    storagePage.selectFile(0) //first file/folder
+    storagePage.downloadFileORFolder()
+  })
+  it('TC_Storage_006 - Verify removing a file or folder', () => {
+    const folderName = reuseableCode.generateRandomString('6')
+    const description = 'Test Storage Folder Deletion'
+    storagePage.goToStorage()
+    storagePage.addNewStorageFolder(folderName, description)
+    storagePage.goToStorage()
+    storagePage.removeStorageFolder(folderName)
+  })
+  it('TC_Storage_007 - Verify moving a file to a folder', () => {
+    const folderName = reuseableCode.generateRandomString('6')
+    const description = 'Test Storage Folder Moving'
+    storagePage.goToStorage()
+    storagePage.addNewStorageFolder(folderName, description)
+    storagePage.goToStorage()
+    storagePage.selectFile(0)
+    storagePage.moveFileORFolder()
+    storagePage.goToStorage()
+    storagePage.removeStorageFolder(folderName)
+  })
+  it('TC_Storage_008 - Verify copying a file to a folder', () => {
+    storagePage.goToStorage()
+    storagePage.selectFile(0) //first file/folder
+    storagePage.copyFileORFolder()
+  })
+  it('TC_Storage_009 - Verify searching for files or folders', () => {
+    storagePage.goToStorage()
+    storagePage.searchFileORFolder('Dropbox')
   })
 })

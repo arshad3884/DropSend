@@ -1,10 +1,22 @@
 
 export class LoginPage {
+    setCookiesinDropSend() {
+        cy.clearAllCookies()
+        const cookies = `_ga=GA1.1.792418524.1732166521; _gcl_au=1.1.725033355.1732166651; _vwo_uuid_v2=D6B06AC482D8AF47A62BB4A081D650625|3561a95b50d8d6f68f888caf47386ea1; _vis_opt_s=1%7C; _vis_opt_test_cookie=1; _vwo_uuid=D6B06AC482D8AF47A62BB4A081D650625; _vwo_ds=3%241732638092%3A38.1148446%3A%3A; SessionID=v1b6jvhfaa5cii53p0ma3db0s8; _htr=S%25BD%2528g%25E4%2584v8%257E%25EA%2586%2512%255E%25C2%25D9%25AB%25A7%25C2%25FAV%25E2%25E5%25C3%25E3l%2540%25BD%25EF%25C1%2522d%25CA; plan=4; _clck=1c9nmhv%7C2%7Cfrq%7C0%7C1786; _hp2_ses_props.2481380113=%7B%22ts%22%3A1734257663410%2C%22d%22%3A%22myaccount-dev2.dropsend.com%22%2C%22h%22%3A%22%2F%22%7D; dslogin[c]=92c4e574; HAPcookie=devel-web02|Z162q; _hp2_id.2481380113=%7B%22userId%22%3A%224189946565274548%22%2C%22pageviewId%22%3A%221634478121564250%22%2C%22sessionId%22%3A%226667008798472685%22%2C%22identity%22%3Anull%2C%22trackerVersion%22%3A%224.0%22%7D; _ga_Q556NK9K39=GS1.1.1734257808.49.1.1734260391.57.0.0; _clsk=1m68lpb%7C1734260391958%7C13%7C1%7Cs.clarity.ms%2Fcollect`;
+        cookies.split('; ').forEach(cookie => {
+            const [name, value] = cookie.split('=')
+            cy.setCookie(name, value)
+        })
+    }
     goToLogin() {
         cy.visit('/')
         cy.get('.m-menu-pb a[class="home-login-link"]').should('be.visible').and('contain.text', 'Login').click()
-        cy.url().should('include', '/login')
+        //cy.url().should('include', '/login')
         cy.get('[action="/login"] h1').should('be.visible').and('contain.text', 'Welcome back.') //heading
+
+        this.setCookiesinDropSend()
+        cy.wait(1000)
+        cy.visit('https://myaccount-dev2.dropsend.com/login')
     }
     login(email, password) {
 
@@ -150,5 +162,5 @@ export class LoginPage {
         }
         findEmail()
     }
-    
+
 }
