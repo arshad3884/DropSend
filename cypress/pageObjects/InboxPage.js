@@ -6,7 +6,7 @@ export class InboxPage {
         cy.get('.h3.file-title').should('be.visible').and('contain.text', 'Inbox') //heading
     }
     validateInbox() {
-        cy.get('.h3.file-title').should('be.visible').and('contain.text', 'Inbox') //heading
+        cy.get('.h3.file-title').should('be.visible').and('contain.text', 'Inbox').wait(1000) //heading
         cy.get('[class="links-text font-weight-600 text-center"]').if().then((messageElement) => { //when inbox is blank
             cy.wrap(messageElement).should('contain.text', 'When other DropSend users send you a file, it will appear here')
             cy.log('Inbox is blank');

@@ -6,9 +6,9 @@ export class SentItemsPage {
         cy.get('.h3.file-title').should('be.visible').and('contain.text', 'Sent') //heading
     }
     validateSentItems() {
-        cy.get('.h3.file-title').should('be.visible').and('contain.text', 'Sent') //heading
+        cy.get('.h3.file-title').should('be.visible').and('contain.text', 'Sent').wait(1000) //heading
         cy.get('[class="links-text font-weight-600 text-center"]').if().then((messageElement) => { //when Sent item is blank
-            cy.wrap(messageElement).should('contain.text', 'When other DropSend users send you a file, it will appear here')
+            cy.wrap(messageElement).should('contain.text', 'This is where we store a record of your sent items')
             cy.log('Sent item is blank');
             throw new Error('Sent item is blank!')
         }).else().then(() => { //when Sent item is not blank

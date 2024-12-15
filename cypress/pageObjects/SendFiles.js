@@ -56,7 +56,7 @@ export class SendFiles {
         cy.get('.h3').should('be.visible').and('contain.text','Your File Was Successfully Sent')
         cy.get('#main_content_area > #status_heading').if().should('be.visible').and('contain.text','It will be available for 14 days')
         cy.get('.text-center > b').should('be.visible') //Download Here
-        cy.get('.okay-button').should('be.visible').and('contain.text','Okay') //Okay button
+        cy.get('.okay-button').should('be.visible').and('contain.text','Okay').click() //Okay button
     }
     validateErrorAlert(message) {
         cy.on('window:alert', (alertText) => {
