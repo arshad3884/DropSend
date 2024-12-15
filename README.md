@@ -1,5 +1,5 @@
 
-# GETTR - Cypress Test Automation
+# DROPSEND - Cypress Test Automation
 
 This repository contains the test automation framework for the DropSend Web app project, built using Cypress in JavaScript. The framework is designed to automate end-to-end testing scenarios, ensuring the reliability and stability of the application.
 
