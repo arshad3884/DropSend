@@ -14,9 +14,8 @@ export class LoginPage {
         //cy.url().should('include', '/login')
         cy.get('[action="/login"] h1').should('be.visible').and('contain.text', 'Welcome back.') //heading
 
-        this.setCookiesinDropSend()
-        cy.wait(1000)
-        cy.visit('https://myaccount-dev2.dropsend.com/login')
+        //this.setCookiesinDropSend()
+        //cy.visit('https://myaccount-dev2.dropsend.com/login')
     }
     login(email, password) {
 
@@ -69,7 +68,7 @@ export class LoginPage {
         cy.get('.forgot-password-container .alert-box').should('contain.text', message)
     }
     verifyPasswordResetMessage() {
-        cy.url().should('include', '/login/send_password/')
+        cy.url().should('include', '/login/send_password_confirm')
         cy.get('[id="full_login_form"] legend').should('be.visible').and('contain.text', 'Your new password has been sent') //heading
         cy.get('[id="full_login_form"] p').eq(0).should('be.visible').and('contain.text', 'You should receive this in your email shortly.')
             .and('contain.text', 'Once you have this, please log in and change your').and('contain.text', 'password as soon as possible.')

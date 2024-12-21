@@ -17,11 +17,9 @@ describe('Homepage test cases', () => {
     const loginPassword = Cypress.config('users').user1.password
     const accountUrl = Cypress.env('accountUrl')
 
-
     beforeEach(() => {
         loginPage.goToLogin()
         loginPage.login(loginEmail, loginPassword)
-        //homePage.closeaddModal()
         homePage.validateHomePage()
     })
     it('TC-Home-001 - Validate recent files are displayed correctly', () => {

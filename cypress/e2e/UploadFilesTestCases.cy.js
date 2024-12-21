@@ -22,7 +22,6 @@ describe('Upload Files Functionality test cases', () => {
   beforeEach(() => {
     loginPage.goToLogin()
     loginPage.login(loginEmail, loginPassword)
-    //homePage.closeaddModal()
     homePage.validateHomePage()
   })
 

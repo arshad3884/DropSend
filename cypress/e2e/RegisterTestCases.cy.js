@@ -28,7 +28,6 @@ describe('Register Functionality test cases', () => {
     
     //Delete the created account
     loginPage.login(email, password)
-    homePage.closeaddModal()
     homePage.validateHomePage()
     registerPage.deleteAccount()
   })
@@ -135,7 +134,6 @@ describe('Register Functionality test cases', () => {
     
     //Delete the created account
     loginPage.login(email, password)
-    homePage.closeaddModal()
     homePage.validateHomePage()
     registerPage.deleteAccount()
 

@@ -18,7 +18,6 @@ describe('Files > Storage Functionality test cases', () => {
   beforeEach(() => {
     loginPage.goToLogin()
     loginPage.login(loginEmail, loginPassword)
-    //homePage.closeaddModal()
     homePage.validateHomePage()
   })
   it('TC_Storage_001 - Verify adding a new storage folder', () => {

@@ -1,6 +1,7 @@
 export class HomePage {
     closeaddModal() {
-        cy.get('.ui-button-icon-primary').should('be.visible').click() //close the ad modal
+        cy.wait(3000)
+        cy.get('.ui-button-icon-primary', { timeout: 5000 }).if().should('be.visible').click() //close the ad modal
     }
     goToHome() {
         cy.get('.list-item a[href*=".dropsend.com/"]').eq(0).should('be.visible').and('contain.text', 'Home').click()
@@ -12,6 +13,7 @@ export class HomePage {
         cy.get('[id="navbarNav"] [class="nav-link"]').contains('Request').should('be.visible') //Request
         cy.get('[id="navbarNav"] [class="nav-link"]').contains('Collaborate').if().should('be.visible') //Collaborate
         cy.get('[id="navbarNav"] [class="nav-link"]').contains('Logout').should('be.visible') //Logout
+        this.closeaddModal() //If any
 
         cy.get(`[class="upload-more-files"] [onclick="account.open_upload('send');"]`).should('be.visible').and('contain.text', 'Send Files') //Send Files
         cy.get('li[class*="list-item"]').contains('Home').should('be.visible') //Home

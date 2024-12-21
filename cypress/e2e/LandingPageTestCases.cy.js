@@ -27,7 +27,7 @@ describe('Landing Page Validation test cases', () => {
   it('TC_Landing_003 - Test help page functionality', () => {
     landingPage.validateLandingPage() //validate landing page
     landingPage.validateHelpPage()
-  
+
   })
   it('TC_Landing_004 - Test Pricing page loads properly', () => {
     landingPage.validateLandingPage() //validate landing page
@@ -36,7 +36,7 @@ describe('Landing Page Validation test cases', () => {
   })
   it('TC_Landing_005 - Test DropShare page loads properly', () => {
     landingPage.validateLandingPage() //validate landing page
-    landingPage.validateDropSharePage() 
+    landingPage.validateDropSharePage()
 
   })
   it('TC_Landing_006 - Test Blogs page loads properly', () => {

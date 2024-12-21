@@ -22,7 +22,6 @@ describe('My Files > Sent Items test cases', () => {
     beforeEach(() => {
         loginPage.goToLogin()
         loginPage.login(loginEmail, loginPassword)
-        //homePage.closeaddModal()
         homePage.validateHomePage()
     })
     it('TC_Sent_001 - Test file listing with correct details', () => {
