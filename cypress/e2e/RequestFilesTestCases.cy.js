@@ -18,7 +18,6 @@ describe('Request Files Functionality test cases', () => {
   beforeEach(() => {
     loginPage.goToLogin()
     loginPage.login(loginEmail, loginPassword)
-    //homePage.closeaddModal()
     homePage.validateHomePage()
   })
   it('TC_Request_001 - Validate "Request File" Form Navigation', () => {

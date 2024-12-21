@@ -71,7 +71,7 @@ describe('Guest functionality test cases', () => {
     landingPage.addrecipient('testrecipient4@yopmail.com')
     landingPage.addrecipient('testrecipient5@yopmail.com')
     landingPage.addrecipient('testrecipient6@yopmail.com')
-  
+
     cy.get('[id="chip-container"]').should('not.contain.text', 'testrecipient6@yopmail.com')   //6th recipient will not be added
   })
   it('TC_Guest_005 - File download link is functional', () => {

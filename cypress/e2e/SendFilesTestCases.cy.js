@@ -20,10 +20,8 @@ describe('Send Files Functionality test cases', () => {
   beforeEach(() => {
     loginPage.goToLogin()
     loginPage.login(loginEmail, loginPassword)
-    //homePage.closeaddModal()
     homePage.validateHomePage()
   })
-
   it('TC_SF_001 - Test "Send Files" modal visibility', () => {
     sendFiles.openSendFilesModal()
   })

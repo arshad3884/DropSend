@@ -15,7 +15,6 @@ describe('My Account Functionality test cases', () => {
     beforeEach(() => {
         loginPage.goToLogin()
         loginPage.login(loginEmail, loginPassword)
-        //homePage.closeaddModal()
         homePage.validateHomePage()
     })
     it('TC_Account_001 - Save updates to user details', () => {

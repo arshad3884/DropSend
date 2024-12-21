@@ -20,7 +20,6 @@ describe('Forgot password Functionality test cases', () => {
     loginPage.goToLogin()
     cy.get('@newPassword').then(newPassword => {
       loginPage.login(testEmail, newPassword)
-      homePage.closeaddModal()
       homePage.validateHomePage()
     })
   })
@@ -37,7 +36,7 @@ describe('Forgot password Functionality test cases', () => {
     loginPage.validateErrorOnForgotPassword('Otherwise, you can')
     loginPage.validateErrorOnForgotPassword('create a new account here')
   })
-  it('TC_FORGOT_005 - Verify the content of the password reset email', () => {
+  it('TC_FORGOT_004 - Verify the content of the password reset email', () => {
     const testEmail = 'testresetpassword@yopmail.com'
     loginPage.forgotPassword(testEmail)
     loginPage.verifyPasswordResetMessage()
