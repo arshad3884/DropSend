@@ -32,9 +32,9 @@ export class LoginPage {
             cy.get('[action="/login"] [id="mainformpassword"]').should('be.visible').type(password) //input
         }
 
-        cy.get('[action="/login"] .remember-check [id="rememberme"]').should('exist').check() //Remember me
+        cy.get('[action="/login"] .remember-check [id="rememberme"]').should('exist') //Remember me
 
-        cy.get('[action="/login"] [id="loginbutton"]').should('be.visible').and('contain.text', 'Sign in').click() //Signin
+        cy.get('[action="/login"] [id="loginbutton"]').should('be.visible').and('contain.text', 'Sign in').click().wait(1000) //Signin
     }
     validateError(message) {
         cy.get('[id="errormsg"]').should('be.visible').and('contain.text', message)
@@ -161,5 +161,7 @@ export class LoginPage {
         }
         findEmail()
     }
-
+    logout(){
+        cy.get('[id="navbarNav"] [href="/login/logout"]').should('be.visible').and('contain.text','Logout').click()
+    }
 }

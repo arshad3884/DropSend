@@ -5,6 +5,8 @@ module.exports = defineConfig({
     baseUrl: "https://www-dev2.dropsend.com",
     env: {
       accountUrl: "https://myaccount-dev2.dropsend.com", // Post-login URL
+      businessURL: "https://business.groupaccounts-dev2.dropsend.com/",
+      businessLiteURL: "https://businesslite.groupaccounts-dev2.dropsend.com/"
     },
     viewportWidth: 1920,
     viewportHeight: 1080,
@@ -29,10 +31,10 @@ module.exports = defineConfig({
     users: {
       user1: {
         username: "dropsendtest1@yopmail.com",
-        password: "dropsend99",
+        password: "Boring123",
       },
       user2: {
-        username: "johnwick@yopmail.com",
+        username: "dropsendtest2@yopmail.com",
         password: "Boring123",
       },
       user3: {
@@ -40,9 +42,9 @@ module.exports = defineConfig({
         password: "Boring123",
       },
       user4: {
-        username: "dropsendtest4@yopmail.com",
+        username: "dropsendtest4@yopmail.com",  //business user
         password: "Boring123",
-      },
+      }
     },
   },
 });

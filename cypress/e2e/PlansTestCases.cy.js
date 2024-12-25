@@ -13,17 +13,16 @@ const plansPage = new PlansPage
 const reuseableCode = new ReuseableCode
 
 describe('Plans subscriptions test cases', () => {
-    const loginEmail = Cypress.config('users').user3.username
-    const loginPassword = Cypress.config('users').user3.password
+    const loginEmail = Cypress.config('users').user2.username
+    const loginPassword = Cypress.config('users').user2.password
     const accountUrl = Cypress.env('accountUrl')
 
     beforeEach(() => {
         loginPage.goToLogin()
-    })
-    it('TC_Plans_001 - Display current plan and available plans', () => {
         loginPage.login(loginEmail, loginPassword)
         homePage.validateHomePage()
-
+    })
+    it('TC_Plans_001 - Display current plan and available plans', () => {
         plansPage.goToPlans()
         plansPage.getCurrentPlan()
         cy.get('@currentName').then(currentPlan => {
@@ -38,9 +37,6 @@ describe('Plans subscriptions test cases', () => {
         plansPage.validatePlanCard('BUSINESS')
     })
     it('TC_Plans_002 - Upgrade to a Basic plan', () => {
-        loginPage.login(loginEmail, loginPassword)
-        homePage.validateHomePage()
-
         //Upgrade to Basic plan
         plansPage.goToPlans()
         plansPage.downgradeToLite()
@@ -53,9 +49,6 @@ describe('Plans subscriptions test cases', () => {
         })
     })
     it('TC_Plans_003 - Upgrade to a Standard plan', () => {
-        loginPage.login(loginEmail, loginPassword)
-        homePage.validateHomePage()
-
         //Upgrade to Basic plan
         plansPage.goToPlans()
         plansPage.downgradeToLite()
@@ -68,22 +61,7 @@ describe('Plans subscriptions test cases', () => {
         })
     })
     it('TC_Plans_004 - Upgrade to a Pro plan', () => {
-
-        /*//Go to Register
-        registerPage.goToRegister()
-
-        const fullName = (reuseableCode.getRandomFirstName()) + ' ' + (reuseableCode.getRandomLastName())
-        const email = (reuseableCode.generateRandomString(10) + '@yopmail.com')
-        const companyName = 'TestQACompany'
-        const password = 'Boring123'
-        registerPage.addNewUserDetails(fullName, email, companyName, password, password)
-        registerPage.clickRegister()
-*/
-        //Delete the created account
-        loginPage.login(loginEmail, loginPassword)
-        homePage.validateHomePage()
-
-        //Upgrade to Basic plan
+        //Upgrade to PRO plan
         plansPage.goToPlans()
         plansPage.downgradeToLite()
         plansPage.upgradePlan('PRO')
@@ -93,12 +71,8 @@ describe('Plans subscriptions test cases', () => {
         cy.get('@currentName').then(currentPlan => {
             expect(currentPlan).to.be.eq('Pro')
         })
-        //registerPage.deleteAccount()
     })
     it('TC_Plans_005 - Upgrade plan with invalid card details', () => {
-        loginPage.login(loginEmail, loginPassword)
-        homePage.validateHomePage()
-
         //Upgrade to Basic plan
         plansPage.goToPlans()
         plansPage.downgradeToLite()
@@ -120,10 +94,7 @@ describe('Plans subscriptions test cases', () => {
         })
     })
     it('TC_Plans_006 - Upgrade to a Pro plan by applying valid coupon code', () => {
-        loginPage.login(loginEmail, loginPassword)
-        homePage.validateHomePage()
-
-        //Upgrade to Basic plan
+        //Upgrade to PRO plan
         plansPage.goToPlans()
         plansPage.downgradeToLite()
         plansPage.upgradePlan('PRO', 'test1') //Coupon code

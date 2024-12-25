@@ -10,7 +10,7 @@ export class PlansPage {
     }
     getCurrentPlan() {
         cy.get('[class="h3 font-weight-600 d-none d-sm-block mb-3"]').should('be.visible').invoke('text').then(text => {
-            const currentName = text.match(/Current Plan:\s*(\w+)/)[1] // Extract the plan name using regex
+            const currentName = text.match(/Current Plan:\s*(.+)/)[1].trim() // Extract the full plan name
             cy.log(`Extracted Plan Name: ${currentName}`)
             cy.wrap(currentName).as('currentName')
         })
@@ -278,7 +278,7 @@ export class PlansPage {
         cy.get('[id="cc_expiry_month"]').should('exist').select(month)
         cy.get('[id="cc_expiry_year"]').should('exist').select(year)
     }
-    upgradePlan(planName, coupon = null) {
+    upgradePlan(planName, coupon = null, subDomain = null) {
         const accountUrl = Cypress.env('accountUrl')
         //BASIC
         if (planName == 'BASIC') {
@@ -307,7 +307,7 @@ export class PlansPage {
                             if (coupon != null) {
                                 cy.get('[id="promo_code"]').should('be.visible').clear().type(coupon)
                                 cy.get('[id="button_apply"]').should('be.visible').and('contain.value', 'Apply').click() //apply coupon
-                                cy.get('[id="discount_info"]').should('be.visible').and('contain.text', ' Your discount with promo code is $1.77')
+                                cy.get('[id="discount_info"]').should('be.visible').and('contain.text', ' Your discount with promo code is $1.13')
                             }
                             this.addPaymentMethod('4242424242424242', '123', '01', '2028')
                             cy.get('[id="cc_zip_postcode"]').should('exist').clear().type('45000')
@@ -344,10 +344,10 @@ export class PlansPage {
                             cy.visit(`${accountUrl}/account/regrade?landing=1&plan_id=3`)
                             cy.get('h1').should('be.visible').and('contain.text', 'Upgrade your plan')
                             cy.get('[id="upgrade_info"]:nth-child(2) h2').should('be.visible').and('contain.text', 'You are upgrading from the ').and('contain.text', 'Standard Plan')
-                            if(coupon != null){
+                            if (coupon != null) {
                                 cy.get('[id="promo_code"]').should('be.visible').clear().type(coupon)
-                                cy.get('[id="button_apply"]').should('be.visible').and('contain.value','Apply').click() //apply coupon
-                                cy.get('[id="discount_info"]').should('be.visible').and('contain.text',' Your discount with promo code is $3.19')
+                                cy.get('[id="button_apply"]').should('be.visible').and('contain.value', 'Apply').click() //apply coupon
+                                cy.get('[id="discount_info"]').should('be.visible').and('contain.text', ' Your discount with promo code is $2.03')
                             }
                             this.addPaymentMethod('4242424242424242', '123', '01', '2028')
                             cy.get('[id="cc_zip_postcode"]').should('exist').clear().type('45000')
@@ -387,7 +387,7 @@ export class PlansPage {
                             if (coupon != null) {
                                 cy.get('[id="promo_code"]').should('be.visible').clear().type(coupon)
                                 cy.get('[id="button_apply"]').should('be.visible').and('contain.value', 'Apply').click() //apply coupon
-                                cy.get('[id="discount_info"]').should('be.visible').and('contain.text', ' Your discount with promo code is $6.74')
+                                cy.get('[id="discount_info"]').should('be.visible').and('contain.text', ' Your discount with promo code is $4.29')
                             }
                             this.addPaymentMethod('4242424242424242', '123', '01', '2028')
                             cy.get('[id="cc_zip_postcode"]').should('exist').clear().type('45000')
@@ -420,6 +420,30 @@ export class PlansPage {
                     cy.get('.plan-card').contains(planName).parents('.plan-card').find('button[class="btn primary-btn circular w-100"]').should('not.exist') //Upgrade downgrade button should not be shown
                 } else {
                     cy.get('.plan-card').contains(planName).parents('.plan-card').find('button[class="btn primary-btn circular w-100"]').should('exist') //button
+                        .and('contain.text', 'Upgrade').then(() => {
+                            cy.visit(`${accountUrl}/account/regrade?landing=1&plan_id=15`)
+                            cy.get('h1').should('be.visible').and('contain.text', 'Upgrade your plan')
+                            cy.get('[id="upgrade_info"]:nth-child(2) h2').should('be.visible').and('contain.text', 'You are upgrading from the ').and('contain.text', 'Business Lite Plan')
+                            //Adding sub-domain
+                            if (subDomain != null) {
+                                cy.get('[id="subdomain"]').should('be.visible').clear().type(subDomain).and('contain.value', subDomain)
+                            }
+                            if (coupon != null) {
+                                cy.get('[id="promo_code"]').should('be.visible').clear().type(coupon)
+                                cy.get('[id="button_apply"]').should('be.visible').and('contain.value', 'Apply').click() //apply coupon
+                                cy.get('[id="discount_info"]').should('be.visible').and('contain.text', ' Your discount with promo code is $10.16')
+                            }
+                            this.addPaymentMethod('4242424242424242', '123', '01', '2028')
+                            cy.get('[id="cc_zip_postcode"]').should('exist').clear().type('45000')
+                            cy.get('[id="cc_country"]').should('exist').select('Pakistan')
+                            cy.get('[id="form_confirm"]').should('exist').click() //Continue
+                            //Create an alias for Domain 
+                            cy.get('#domain_for_ds').should('be.visible').invoke('text').as('domain')
+                            cy.get('[id="cc_form_t"]').should('exist') //next step
+                            cy.get('[id="please_confirm"]').should('be.visible').and('contain.text', 'Please click Upgrade below to confirm your upgrade')
+                            cy.get('[id="confirm_upgrade"]').should('be.visible').and('contain.value', 'Upgrade').click() //Upgrade
+                            cy.get('[id="sent_file_success_basic"]').should('be.visible').and('contain.text', 'Upgrade successful. Thank you!') //success
+                        })
                 }
             })
         }
@@ -442,6 +466,30 @@ export class PlansPage {
                     cy.get('.plan-card').contains(planName).parents('.plan-card').find('button[class="btn primary-btn circular w-100"]').should('not.exist') //Upgrade downgrade button should not be shown
                 } else {
                     cy.get('.plan-card').contains(planName).parents('.plan-card').find('button[class="btn primary-btn circular w-100"]').should('exist') //button
+                        .and('contain.text', 'Upgrade').then(() => {
+                            cy.visit(`${accountUrl}/account/regrade?landing=1&plan_id=10`)
+                            cy.get('h1').should('be.visible').and('contain.text', 'Upgrade your plan')
+                            cy.get('[id="upgrade_info"]:nth-child(2) h2').should('be.visible').and('contain.text', 'You are upgrading from the ').and('contain.text', 'Business Plan')
+                            //Adding sub-domain
+                            if (subDomain != null) {
+                                cy.get('[id="subdomain"]').should('be.visible').clear().type(subDomain).and('contain.value', subDomain)
+                            }
+                            if (coupon != null) {
+                                cy.get('[id="promo_code"]').should('be.visible').clear().type(coupon)
+                                cy.get('[id="button_apply"]').should('be.visible').and('contain.value', 'Apply').click() //apply coupon
+                                cy.get('[id="discount_info"]').should('be.visible').and('contain.text', ' Your discount with promo code is $22.35')
+                            }
+                            this.addPaymentMethod('4242424242424242', '123', '01', '2028')
+                            cy.get('[id="cc_zip_postcode"]').should('exist').clear().type('45000')
+                            cy.get('[id="cc_country"]').should('exist').select('Pakistan')
+                            cy.get('[id="form_confirm"]').should('exist').click() //Continue
+                            //Create an alias for Domain 
+                            cy.get('#domain_for_ds').should('be.visible').invoke('text').as('domain')
+                            cy.get('[id="cc_form_t"]').should('exist') //next step
+                            cy.get('[id="please_confirm"]').should('be.visible').and('contain.text', 'Please click Upgrade below to confirm your upgrade')
+                            cy.get('[id="confirm_upgrade"]').should('be.visible').and('contain.value', 'Upgrade').click() //Upgrade
+                            cy.get('[id="sent_file_success_basic"]').should('be.visible').and('contain.text', 'Upgrade successful. Thank you!') //success
+                        })
                 }
             })
         }
@@ -475,6 +523,34 @@ export class PlansPage {
         cy.visit(`${accountUrl}/landing_pricing`)
         cy.get('.plan-card [class="h4 d-block mb--5 font-weight-600"]').eq(0).should('exist').and('contain.text', 'LITE') //Plan Name
         cy.get('.plan-card').contains('LITE').parents('.plan-card').find('button[class="btn primary-btn circular w-100"]').should('not.exist')
+    }
+    downgradeToLiteFromBusiness(URL) {
+        const accountUrl = Cypress.env('accountUrl')
+        //visit Confirmation modal
+        cy.visit(`${URL}/account/regrade?landing=1&plan_id=1`)
+        cy.get('h1').should('be.visible').and('contain.text', 'Downgrade Your Plan')
+        cy.get('h2').should('be.visible').and('contain.text', 'You are downgrading from the ').and('contain.text', 'Free Plan')
+        cy.get('[id="confirm_downgrade"]').should('be.visible').and('contain.value', 'Downgrade').click()
+        //cy.get('.row > :nth-child(1) > .heading-1').should('be.visible').and('contain.text', 'Plan: Free')
+        //API call
+        const authToken = 'UQOnSu8ge7ISdcgDfUHVJ2IrKnNbIpOoM4eWcGVm1Qs='
+        cy.request({
+            method: 'POST',
+            url: `${accountUrl}/api/admin/downgrade`,
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            },
+        }).then((response) => {
+            expect(response.status).to.eq(200)
+            expect(response.body).to.have.property('data').and.to.be.an('array')
+
+            // Validate each object in the 'data' array
+            response.body.data.forEach((item) => {
+                expect(item).to.have.property('account_id').and.to.be.a('string')
+                expect(item).to.have.property('downgraded').and.to.eq(true)
+            })
+        })
+
     }
     validateErrorAlert(message) {
         cy.on('window:alert', (alertText) => {
