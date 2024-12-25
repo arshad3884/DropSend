@@ -1,8 +1,25 @@
 export class HomePage {
     closeaddModal() {
-        cy.wait(3000)
-        cy.get('.ui-button-icon-primary', { timeout: 5000 }).if().should('be.visible').click() //close the ad modal
+        const checkAndCloseModal = (retryCount = 0, maxRetries = 5, interval = 1000) => {
+            // Wait for a specified interval
+            cy.wait(interval)
+            // Check if the modal is present
+            cy.get('body').then(($body) => {
+                if ($body.find('.ui-button-icon-primary').length > 0) {
+                    cy.get('.ui-button-icon-primary').should('be.visible').click() // Close the modal
+                    cy.log('Ad modal appeared and was closed.')
+                } else if (retryCount < maxRetries) {
+                    cy.log(`Ad modal not found, retrying... (${retryCount + 1}/${maxRetries})`)
+                    checkAndCloseModal(retryCount + 1, maxRetries, interval) // Retry
+                } else {
+                    cy.log('Ad modal did not appear within the maximum retries.')
+                }
+            })
+        }
+        // Start the recursive check
+        checkAndCloseModal()
     }
+
     goToHome() {
         cy.get('.list-item a[href*=".dropsend.com/"]').eq(0).should('be.visible').and('contain.text', 'Home').click()
     }
@@ -13,6 +30,7 @@ export class HomePage {
         cy.get('[id="navbarNav"] [class="nav-link"]').contains('Request').should('be.visible') //Request
         cy.get('[id="navbarNav"] [class="nav-link"]').contains('Collaborate').if().should('be.visible') //Collaborate
         cy.get('[id="navbarNav"] [class="nav-link"]').contains('Logout').should('be.visible') //Logout
+
         this.closeaddModal() //If any
 
         cy.get(`[class="upload-more-files"] [onclick="account.open_upload('send');"]`).should('be.visible').and('contain.text', 'Send Files') //Send Files
