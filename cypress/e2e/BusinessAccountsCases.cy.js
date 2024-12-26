@@ -45,7 +45,7 @@ describe('Business Accounts Plans subscriptions test cases', () => {
         cy.get('@domain').then(domain => {
             cy.visit(domain)
         })
-        loginPage.login(loginEmail, loginPassword)
+        loginPage.login(email, password)
         plansPage.goToPlans()
         plansPage.getCurrentPlan()
         cy.get('@currentName').then(currentPlan => {
@@ -78,7 +78,7 @@ describe('Business Accounts Plans subscriptions test cases', () => {
         cy.get('@domain').then(domain => {
             cy.visit(domain)
         })
-        loginPage.login(loginEmail, loginPassword)
+        loginPage.login(email, password)
         plansPage.goToPlans()
         plansPage.getCurrentPlan()
         cy.get('@currentName').then(currentPlan => {
@@ -110,7 +110,7 @@ describe('Business Accounts Plans subscriptions test cases', () => {
         cy.get('@domain').then(domain => {
             cy.visit(domain)
         })
-        loginPage.login(loginEmail, loginPassword)
+        loginPage.login(email, password)
         plansPage.goToPlans()
         plansPage.getCurrentPlan()
         cy.get('@currentName').then(currentPlan => {
@@ -142,7 +142,7 @@ describe('Business Accounts Plans subscriptions test cases', () => {
         cy.get('@domain').then(domain => {
             cy.visit(domain)
         })
-        loginPage.login(loginEmail, loginPassword)
+        loginPage.login(email, password)
         plansPage.goToPlans()
         plansPage.getCurrentPlan()
         cy.get('@currentName').then(currentPlan => {
